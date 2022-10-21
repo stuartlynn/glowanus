@@ -16,11 +16,11 @@ export default async function handler(
   const query = req.query;
   const { deviceId } = query;
   
-  await prisma.ping.create({
+  const newPing = await prisma.ping.create({
     data:{
       deviceId: deviceId as string  
     }
   })
 
-  res.status(200)
+  res.status(200).json(JSON.parse(JSON.stringify({ping: newPing})))
 }
