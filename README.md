@@ -1,34 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Glowanus project 
 
-## Getting Started
+This repo contains the code for the Glowanus project. It has two directories 
 
-First, run the development server:
+-  glowanus\_monitor: which has the code for the website that helps us tell which
+   of the lanterns is active through their heartbeat pings 
+-  pico\_code: which is the actual code that runs on the Pi Pico W 
 
-```bash
-npm run dev
-# or
-yarn dev
+
+## Loading the Pi Pico W
+
+We are using [Thonny](https://thonny.org/) to upload the program to the Pico. Simply 
+upload the contents of the pico\_code folder to the Pi and it should start running.
+
+## Monitoring ID 
+
+We have a small heartbeat ping to a monitoring site, just to see if the application is 
+up and functioning. The id for each lantern can be set in the running.py file by changing 
+the deviceId on this line
+
+```python
+  result = urequests.get("https://glowanus-monitor.vercel.app/api/record_ping?deviceId=12").json()
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
