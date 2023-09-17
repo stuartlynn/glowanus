@@ -14,7 +14,15 @@ except:
   import socket
 
 import network
-    
+import ubinascii
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+mac = ubinascii.hexlify(wlan.config('mac'),':').decode()
+
+print("mac address")
+print(mac)
+
 runningApp = Microdot()
 
 CHECK_INTERVAL = 60.0*2.0/0.01 # in secconds
@@ -25,12 +33,12 @@ async def setup(request):
 
 def ping_server():
     try:
-        result = urequests.get("https://glowanus-monitor.vercel.app/api/record_ping?deviceId=12").json()
+        result = urequests.get("https://glowanus-monitor.vercel.app/api/record_ping?deviceId={0}".format(mac)).json()
         print(result)
     except Exception as e:
         print(e)
-        
-    
+
+
 def get_status():
     try:
         result = urequests.get("https://services.arcgis.com/at3rDjch5X7i9Bag/arcgis/rest/services/cso_prd/FeatureServer/0/query?f=json&returnGeometry=false&where=&objectIds=41&outFields=advisory%2CWaterbod_1").json()
@@ -39,14 +47,14 @@ def get_status():
     except Exception as e:
         print(e)
         return False
-    
+
 
 def start_active():
     advisory = False
     i = 0
     button_press_count = 0
     button = machine.Pin(28,machine.Pin.IN)
-    
+
     while True:
         if(i%int(CHECK_INTERVAL) ==0):
             print("checking advisory")
@@ -60,12 +68,12 @@ def start_active():
        # if(i>65535*20):
         #    i=0
         i=i+1
-       
-            
+
+
 
         time.sleep(0.01)
-            
-        
+
+
 
 def start_running_server(secrets):
     fill(GREEN)
@@ -73,7 +81,7 @@ def start_running_server(secrets):
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     wlan.connect(secrets["SSRID"], secrets["PASSWORD"])
-    
+
     # Try to connect for 20 secconds
     max_wait = 20
     while max_wait > 0:
@@ -82,11 +90,11 @@ def start_running_server(secrets):
         else:
             max_wait -= 1
             time.sleep(1)
-    
+
     # If connection failed after 20 s
     # Show red status for 4 s
     # The delete the secrets and reset machine
-    
+
     if(not wlan.isconnected()):
         fill(RED)
         restart_delay = 4
@@ -104,7 +112,7 @@ def start_running_server(secrets):
     #s.bind(('', 80))
     #s.listen(5)
     start_active()
-  
+
  #   while True:
  #     conn, addr = s.accept()
  #     print('Got a connection from %s' % str(addr))
@@ -113,4 +121,3 @@ def start_running_server(secrets):
  #     response = web_page()
  #     conn.send(response)
  #     conn.close()
-
