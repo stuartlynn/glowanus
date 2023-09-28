@@ -1,12 +1,29 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <title>Pico W</title>
-    </head>
-    <body>
-        <h1>Pico W</h1>
-        <p>Control the onboard LED</p>
-        <a href=\"?led=on\"><button>ON</button></a>&nbsp;
-        <a href=\"?led=off\"><button>OFF</button></a>
-    </body>
-</html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                    body {background-color: powderblue;}
+                    h1   {color: blue;}
+                    p    {color: red;}
+                    #full{
+                        display:flex;
+                        flex-direction:column;
+                        align-items:center;
+                        justify-content: center;
+                        width:100vw;
+                        height:100vh;
+                    }
+                </style>
+            </head>
+            <body>
+            <div id="full">
+                <form action="/settings" method="POST">
+                    <p>SSRID</p>
+                    <input type="text" name="SSRID" id="SSRID">
+                    <p>Password</p>
+                    <input type="password" id="password" name="password" required/>
+                    <button type='submit'>Submit</button>
+                </form>
+            </div>
+            </body>
+        </html>
